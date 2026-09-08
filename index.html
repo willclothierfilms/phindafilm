@@ -1,0 +1,924 @@
+<!doctype html>
+<html style="height: 100%">
+  <head>
+    <title>PHINDA</title>
+    <link rel="icon" type="image/x-icon" href="mama_z_icon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      :root {
+        --bar-width: 30px;
+        --bar-height: 2px;
+        --hamburger-gap: 6px;
+        --animation-timing: 200ms ease-in-out;
+        --hamburger-height: calc(
+          var(--bar-height) * 3 + var(--hamburger-gap) * 2
+        );
+        --hamburger-color: white;
+        scroll-behavior: smooth;
+      }
+
+      @media (max-width: 768px) {
+        #header-right * {
+          display: none;
+        }
+      }
+
+      @media (min-width: 769px) {
+        #mobile-header {
+          display: none;
+        }
+      }
+
+      .full-width-flex-column {
+        /* min-height: 100vh; */
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .full-width-flex-row {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+      }
+
+      .hamburger-menu {
+        --x-width: calc(var(--hamburger-height) * 1.41421356237);
+
+        display: flex;
+        flex-direction: column;
+        gap: var(--hamburger-gap);
+
+        width: max-content;
+        cursor: pointer;
+      }
+
+      .hamburger-menu::before,
+      .hamburger-menu::after,
+      .hamburger-menu input {
+        content: "";
+        width: var(--bar-width);
+        height: var(--bar-height);
+        background-color: var(--hamburger-color);
+        border-radius: 9999px;
+        transform-origin: left center;
+        transition: all var(--animation-timing);
+      }
+
+      .hamburger-menu input {
+        appearance: none;
+        padding: 0;
+        margin: 0;
+        outline: none;
+        pointer-events: none;
+      }
+
+      .hamburger-menu:has(input:checked)::before {
+        rotate: 45deg;
+        width: var(--x-width);
+        translate: 0 calc(var(--bar-height) / -2);
+      }
+
+      .hamburger-menu:has(input:checked)::after {
+        rotate: -45deg;
+        width: var(--x-width);
+        translate: 0 calc(var(--bar-height) / 2);
+      }
+
+      .hamburger-menu input:checked {
+        opacity: 0;
+        width: 0;
+        translate: calc(var(--x-width) / 2) 0;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Mulish", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 200;
+        font-style: normal;
+        background-color: rgb(45, 57, 46);
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+      }
+
+      #header {
+        position: fixed;
+        top: 0;
+        padding: 24px;
+        color: white;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        z-index: 2;
+      }
+
+      #header-right {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+      }
+
+      .header-link {
+        color: white;
+        text-decoration: none;
+        font-size: 1.5em;
+        display: flex;
+        flex-direction: row;
+      }
+
+      #header-right > .header-link {
+        margin-left: 24px;
+      }
+
+      #header-right > .header-link:hover {
+        text-decoration: underline;
+        text-decoration-thickness: from-font;
+        text-underline-offset: 6px;
+      }
+
+      .header-img {
+        height: 1em;
+        align-self: center;
+      }
+
+      .mobile-menu {
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        z-index: 1;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+
+        padding-top: 30%;
+        padding-bottom: 30%;
+      }
+
+      #mobile-menu-icons {
+        display: flex;
+        flex-direction: row;
+      }
+
+      .mobile-menu-link {
+        color: white;
+        text-decoration: none;
+        font-size: 1.5em;
+        display: flex;
+        flex-direction: row;
+      }
+
+      #mobile-menu-right > .mobile-menu-link {
+        margin-left: 24px;
+      }
+
+      #mobile-menu-right > .mobile-menu-link:hover {
+        text-decoration: underline;
+        text-decoration-thickness: from-font;
+        text-underline-offset: 6px;
+      }
+
+      .mobile-menu-img {
+        height: 1em;
+        align-self: center;
+        margin-left: 10px;
+        margin-right: 10px;
+      }
+
+      #header:has(#mobile-header > .hamburger-menu > :not(input:checked))
+        + .mobile-menu {
+        display: none;
+      }
+
+      #header:has(#mobile-header > .hamburger-menu > input:checked)
+        > #header-left
+        > #main-logo {
+        color: white;
+      }
+
+      #header:has(#mobile-header > .hamburger-menu > input:checked) {
+        position: sticky;
+      }
+
+      @media (max-width: 769px) {
+        #phinda-hero-container {
+          min-height: 500px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        #phinda-hero-container {
+          min-height: 300px;
+        }
+      }
+
+      /* @media (min-width: 768px) {
+        #phinda-hero-container {
+          min-height: 100vh;
+        }
+      } */
+
+      #phinda-hero-container {
+        display: flex;
+      }
+
+      #phinda-hero {
+        min-height: 100%;
+        width: 100%;
+      }
+
+      #about {
+        /* min-height: 100vh; */
+        width: 100%;
+        background-color: white;
+        /* display: flex;
+        flex-direction: column; */
+        padding-bottom: 10vh;
+      }
+
+      @media (max-width: 769px) {
+        #about-flex-container {
+          flex-direction: column;
+        }
+      }
+
+      /* @media (min-width: 768px) {
+        #about-flex-container {
+          flex-direction: row;
+        }
+      } */
+
+      #about-image-gallery {
+        margin-left: 5.7vw;
+        margin-top: 13.75vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .about-image-gallery-image {
+        width: 350px;
+        max-width: 25vw;
+      }
+
+      .about-image-gallery-image.not-last {
+        margin-bottom: 4vh;
+      }
+
+      @media (max-width: 769px) {
+        #about-image-gallery {
+          flex-direction: row;
+          width: 100%;
+          justify-content: space-around;
+          margin-left: 0;
+          margin-top: 8vh;
+        }
+        .about-image-gallery-image.not-last {
+          margin-bottom: 0;
+        }
+      }
+
+      /* @media (min-width: 768px) {
+        #about-image-gallery {
+          flex-direction: column;
+        }
+      } */
+
+      #about-text-container {
+        padding-top: 13.75vh;
+        padding-left: 48px;
+        padding-right: 14vw;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      #logline {
+        color: black;
+        /* font-size: 28px; */
+        /* font-size: 1.75em; */
+        font-size: 1.8vw;
+        margin: 0;
+        font-style: italic;
+        margin-bottom: 8px;
+      }
+
+      @media (max-width: 769px) {
+        #about-text-container {
+          padding-top: 8vh;
+          padding-left: 5vw;
+          padding-right: 10vw;
+        }
+        #logline {
+          margin-bottom: 32px;
+        }
+      }
+
+      .phone-about-image-gallery {
+        display: none;
+      }
+
+      @media (max-width: 520px) {
+        #about-image-gallery {
+          display: none;
+        }
+        #about-text-container {
+          padding-top: 4vh;
+          padding-left: 7vw;
+          padding-right: 7vw;
+        }
+        .phone-about-image-gallery {
+          display: flex;
+        }
+        #about {
+          padding-bottom: 0;
+        }
+      }
+
+      #gallery {
+        width: 100%;
+        background-color: white;
+        padding-top: 10vh;
+        padding-left: 5vh;
+        padding-right: 5vh;
+      }
+
+      /* @media (max-width: 520px) {
+        #gallery {
+          display: none;
+        }
+      } */
+
+      #about-will {
+        width: 100%;
+        background-color: white;
+      }
+
+      #about-will-container {
+        padding-top: 26.75vh;
+        padding-bottom: 26.75vh;
+      }
+
+      #will-pic-container {
+        margin-left: 14.8vw;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      #will-pic {
+        width: 300px;
+        max-width: 20vw;
+      }
+
+      #will-text-container {
+        /* padding-top: 13.75vh; */
+        padding-left: 48px;
+        padding-right: 14vw;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      @media (max-width: 769px) {
+        #about-will-container {
+          padding-top: 15vh;
+          padding-bottom: 5vh;
+        }
+      }
+
+      @media (max-width: 520px) {
+        #about-will-container {
+          padding-bottom: 0;
+        }
+        #will-pic {
+          max-width: 30vw;
+        }
+        #will-text-container {
+          padding-left: 18px;
+        }
+      }
+
+      @media (max-width: 425px) {
+        #will-text-container {
+          padding-right: 10vw;
+        }
+      }
+
+      .body-text {
+        color: black; /* font-size: 24x;*/ /* font-size: 1.5em; */
+        font-size: 1.5vw;
+      }
+
+      .heading-text {
+        color: black; /* font-size: 36px;*/ /* font-size: 2.2em; */
+        font-size: 2.2vw;
+      }
+
+      @media (max-width: 769px) {
+        .body-text {
+          font-size: 0.8em;
+        }
+        .heading-text {
+          font-size: 1em;
+        }
+        #logline {
+          font-size: 1em;
+        }
+      }
+
+      #lightbox {
+        border: none;
+        background: transparent;
+        max-width: 90vw;
+        max-height: 90vh;
+        padding: 0;
+        overflow: visible; /* Allows close button to sit nicely */
+      }
+
+      #lightbox img {
+        max-width: 100%;
+        max-height: 85vh;
+        display: block;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      }
+
+      /* The greyed-out backdrop background */
+      #lightbox::backdrop {
+        background-color: rgba(0, 0, 0, 0.7);
+      }
+
+      /* Close Button */
+      #close-btn {
+        position: absolute;
+        top: -40px;
+        right: 0;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 30px;
+        cursor: pointer;
+      }
+
+      .gallery-img:hover {
+        cursor: pointer !important;
+      }
+    </style>
+  </head>
+  <body id="body">
+    <div id="header">
+      <div id="header-left">
+        <a class="header-link" href="index.html">PHINDA</a>
+      </div>
+      <div id="header-right">
+        <!-- <a class="header-link" href="#about">About the Film</a> -->
+        <a
+          class="header-link"
+          target="_blank"
+          href="https://instagram.com/phindafilm"
+          ><img id="ig_logo_w" src="ig_logo_w.png" class="header-img" /><img
+            id="ig_logo_b"
+            src="ig_logo_b.png"
+            class="header-img"
+            style="display: none"
+        /></a>
+      </div>
+      <div id="mobile-header">
+        <label class="hamburger-menu">
+          <input id="hamburger" type="checkbox" />
+        </label>
+      </div>
+    </div>
+
+    <div
+      class="mobile-menu"
+      onclick="
+        document.getElementById('hamburger-menu-trigger').checked = false
+      "
+    >
+      <!-- <a class="mobile-menu-link" href="#about">About the Film</a> -->
+      <div id="mobile-menu-icons">
+        <a
+          class="mobile-menu-link"
+          target="_blank"
+          href="https://instagram.com/phindafilm"
+          ><img src="ig_logo_w.png" class="mobile-menu-img"
+        /></a>
+      </div>
+    </div>
+
+    <div id="phinda-hero-container">
+      <img id="phinda-hero" src="phinda_hero.jpeg" />
+    </div>
+
+    <div id="about">
+      <div class="full-width-flex-row" id="about-flex-container">
+        <div id="about-image-gallery">
+          <img
+            src="PHINDA STILL 41.png"
+            class="about-image-gallery-image not-last gallery-img"
+          />
+          <img
+            src="PHINDA STILL 16.png"
+            class="about-image-gallery-image not-last gallery-img"
+          />
+          <img
+            src="PHINDA STILL 56.png"
+            id="about-image-gallery-last-image"
+            class="about-image-gallery-image gallery-img"
+          />
+        </div>
+        <div id="about-text-container">
+          <p id="logline">
+            The 40-year story of a land once lost, a wilderness forgotten, and
+            the people who chose to bring it back.
+          </p>
+          <div
+            class="full-width-flex-row phone-about-image-gallery"
+            style="justify-content: space-between; margin-bottom: 3vh"
+          >
+            <img
+              src="PHINDA STILL 41.png"
+              style="width: 40vw"
+              class="gallery-img"
+            />
+            <img
+              src="PHINDA STILL 16.png"
+              style="width: 40vw"
+              class="gallery-img"
+            />
+          </div>
+          <div>
+            <p class="heading-text" style="margin: 0; margin-bottom: 24px">
+              About the Film
+            </p>
+            <p class="body-text" style="margin: 0; margin-bottom: 16px">
+              For forty years, a quiet experiment has been unfolding in South
+              Africa.
+            </p>
+            <p class="body-text" style="margin: 0; margin-bottom: 16px">
+              Once a landscape emptied of much of its wildlife, Phinda has
+              become one of the world’s most successful examples of large-scale
+              ecological restoration. Rhinos, elephants, cheetahs and countless
+              other species have returned, while neighbouring communities have
+              become central to shaping its future.
+            </p>
+            <p class="body-text" style="margin: 0; margin-bottom: 16px">
+              PHINDA tells this remarkable story through the voices of the
+              people who lived it.
+            </p>
+            <p class="body-text" style="margin: 0; margin-bottom: 16px">
+              Combining intimate personal testimony with four decades of archive
+              and breathtaking wildlife cinematography, the film explores what
+              happens when people choose to restore nature rather than exploit
+              it.
+            </p>
+            <p class="body-text" style="margin: 0">
+              At a time when environmental stories are often dominated by loss,
+              PHINDA offers something increasingly rare: evidence that recovery
+              is possible.
+            </p>
+            <div
+              class="full-width-flex-row phone-about-image-gallery"
+              style="justify-content: space-between; margin-top: 3vh"
+            >
+              <img
+                src="PHINDA STILL 56.png"
+                style="width: 40vw"
+                class="gallery-img"
+              />
+              <img
+                src="PHINDA STILL 65.png"
+                style="width: 40vw"
+                class="gallery-img"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="gallery">
+      <p class="heading-text" style="margin: 0; margin-bottom: 24px">Gallery</p>
+      <dialog id="lightbox">
+        <button id="close-btn">×</button>
+        <img id="lightbox-img" src="" alt="" />
+      </dialog>
+      <div
+        style="
+          display: flex;
+          flex-wrap: wrap;
+          width: 100%;
+          justify-content: space-between;
+          flex: 1;
+          column-gap: 2vw;
+          row-gap: 2vw;
+        "
+      >
+        <img
+          src="PHINDA STILL 71.png"
+          style="width: 350px; flex-grow: 1; max-width: 48%"
+          class="gallery-img"
+        />
+
+        <img
+          src="PHINDA STILL 40.png"
+          style="width: 350px; flex-grow: 1; max-width: 48%"
+          class="gallery-img"
+        />
+        <img
+          src="PHINDA STILL 5.png"
+          style="width: 350px; flex-grow: 1; max-width: 48%"
+          class="gallery-img"
+        />
+        <img
+          src="PHINDA STILL 72.png"
+          style="width: 350px; flex-grow: 1; max-width: 48%"
+          class="gallery-img"
+        />
+        <img
+          src="PHINDA STILL 60.png"
+          style="width: 350px; flex-grow: 1; max-width: 48%"
+          class="gallery-img"
+        />
+        <img
+          src="PHINDA STILL 77.png"
+          style="width: 350px; flex-grow: 1; max-width: 48%"
+          class="gallery-img"
+        />
+        <img
+          src="PHINDA STILL 13.png"
+          style="width: 350px; flex-grow: 1; max-width: 48%"
+          class="gallery-img"
+        />
+        <img
+          src="PHINDA STILL 42.png"
+          style="width: 350px; flex-grow: 1; max-width: 48%"
+          class="gallery-img"
+        />
+        <img
+          src="PHINDA STILL 74.png"
+          style="width: 350px; flex-grow: 1; max-width: 48%"
+          class="gallery-img"
+        />
+        <img
+          src="PHINDA STILL 46.png"
+          style="width: 350px; flex-grow: 1; max-width: 48%"
+          class="gallery-img"
+        />
+        <img
+          src="PHINDA STILL 33.png"
+          style="width: 350px; flex-grow: 1; max-width: 48%"
+          class="gallery-img"
+        />
+        <img
+          src="PHINDA STILL 45.png"
+          style="width: 350px; flex-grow: 1; max-width: 48%"
+          class="gallery-img"
+        />
+      </div>
+    </div>
+    <div id="about-will">
+      <div id="about-will-container" class="full-width-flex-column">
+        <div class="full-width-flex-row">
+          <div id="will-pic-container">
+            <img id="will-pic" src="will.png" />
+          </div>
+          <div id="will-text-container">
+            <p class="heading-text" style="margin: 0; margin-bottom: 24px">
+              About the Filmmaker
+            </p>
+            <p
+              style="
+                color: black; /* font-size: 24x;*/ /* font-size: 1.5em; */
+                font-size: 1.5vw;
+                margin: 0;
+                margin-bottom: 16px;
+              "
+            >
+              <span style="font-weight: bold">WILL CLOTHIER</span> is a UK-based
+              documentary filmmaker specialising in conservation and
+              character-led storytelling. His work explores the relationship
+              between people and the natural world, with a particular focus on
+              southern Africa and stories of ecological restoration,
+              coexistence, and cultural connection to landscape.
+            </p>
+            <p
+              style="
+                color: black; /* font-size: 24x;*/ /* font-size: 1.5em; */
+                font-size: 1.5vw;
+                margin: 0;
+              "
+            >
+              His work is driven by a belief that conservation stories are
+              ultimately about people - and that hopeful, emotionally grounded
+              storytelling can help reconnect audiences with the living world.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="full-width-flex-column"
+      style="
+        /* min-height: 100vh; */
+        background-color: white;
+        /* justify-content: space-around; */
+        padding-left: 4.5vw;
+        padding-top: 11vh;
+        padding-right: 10vw;
+        padding-bottom: 3vh;
+      "
+    >
+      <p style="color: black; font-size: 2.2vw; margin: 0; margin-bottom: 16px">
+        Film Credits
+      </p>
+      <p style="color: black; font-size: 1.5vw; margin: 0; margin-bottom: 16px">
+        <span style="font-weight: bold">PRODUCED AND DIRECTED BY:</span> WILL
+        CLOTHIER
+      </p>
+      <p style="color: black; font-size: 1.5vw; margin: 0; margin-bottom: 16px">
+        <span style="font-weight: bold">STORY PRODUCER:</span> ELLA VAN CLEAVE
+      </p>
+      <p style="color: black; font-size: 1.5vw; margin: 0; margin-bottom: 16px">
+        <span style="font-weight: bold">IN COLLABORATION WITH:</span>
+        ANDBEYOND<span style="font-weight: bold">,</span> THE MUNYWANA
+        CONSERVANCY<br />
+        <span style="font-weight: bold">AND THE</span> MAKHASA
+        <span style="font-weight: bold">AND</span> MNQOBOKAZI COMMUNITY TRUSTS
+      </p>
+      <p style="color: black; font-size: 1.5vw; margin: 0; margin-bottom: 16px">
+        <span style="font-weight: bold">CINEMATOGRAPHY BY:</span> WILL CLOTHIER
+        <span style="font-weight: bold">AND</span> RIAAN VENTER
+      </p>
+      <p style="color: black; font-size: 1.5vw; margin: 0; margin-bottom: 16px">
+        <span style="font-weight: bold">CAMERA ASSISTANT:</span> SBONELO KHUMALO
+      </p>
+      <p style="color: black; font-size: 1.5vw; margin: 0; margin-bottom: 16px">
+        <span style="font-weight: bold">FIELD DIRECTOR:</span> RIAAN VENTER
+      </p>
+      <p style="color: black; font-size: 1.5vw; margin: 0; margin-bottom: 16px">
+        <span style="font-weight: bold">EDITED BY:</span>
+        ROBIN LEWIS<span style="font-weight: bold">,</span> WILL CLOTHIER
+        <span style="font-weight: bold">AND</span> ELLA VAN CLEAVE
+      </p>
+      <p style="color: black; font-size: 1.5vw; margin: 0; margin-bottom: 16px">
+        <span style="font-weight: bold">DRONE OPERATOR:</span> MATTHEW VAN
+        WIERINGEN
+      </p>
+      <p style="color: black; font-size: 1.5vw; margin: 0; margin-bottom: 16px">
+        <span style="font-weight: bold">ORIGINAL SCORE BY:</span> ROB HICKS
+        <span style="font-weight: bold">AND</span> TRISTAN NOON
+      </p>
+      <p style="color: black; font-size: 1.5vw; margin: 0; margin-bottom: 16px">
+        <span style="font-weight: bold">AUDIO POST PRODUCTION:</span> BENJAMIN
+        J. JONES
+      </p>
+      <p style="color: black; font-size: 1.5vw; margin: 0; margin-bottom: 16px">
+        <span style="font-weight: bold">COLOURIST:</span> MIKE DAVIS
+      </p>
+      <p style="color: black; font-size: 1.5vw; margin: 0; margin-bottom: 16px">
+        <span style="font-weight: bold">FEATURING</span> NOMUSA ‘MAMA’
+        ZIKHALI<span style="font-weight: bold">,</span> BENSON NGUBANE<span
+          style="font-weight: bold"
+          >,</span
+        >
+        LES CARLISLE<span style="font-weight: bold">,</span> BARRY MTHEMBU<span
+          style="font-weight: bold"
+          >,</span
+        >
+        BONGA NGWANE<span style="font-weight: bold">,</span> THOKOZANI MLAMBO
+        <span style="font-weight: bold">AND</span> ISAAC TEMBE
+      </p>
+      <p style="color: black; font-size: 1.5vw; margin: 0; margin-bottom: 16px">
+        <span style="font-weight: bold">WITH THANKS TO</span> THE MUNYWANA
+        CONSERVATION MANAGEMENT TEAM
+      </p>
+    </div>
+    <script>
+      window.addEventListener("scroll", () => {
+        const isPastHeight = window.scrollY > window.innerHeight - 25;
+
+        const collection = document.getElementsByClassName("header-link");
+        for (let i = 0; i < collection.length; i++) {
+          collection[i].style.color = isPastHeight ? "black" : "white";
+        }
+
+        document.documentElement.style.setProperty(
+          "--hamburger-color",
+          isPastHeight ? "black" : "white",
+        );
+
+        document.getElementById("ig_logo_w").style.display = isPastHeight
+          ? "none"
+          : "";
+        document.getElementById("ig_logo_b").style.display = isPastHeight
+          ? ""
+          : "none";
+      });
+      window.addEventListener("click", () => {
+        const isPastHeight = window.scrollY > window.innerHeight - 25;
+
+        const collection = document.getElementsByClassName("header-link");
+        for (let i = 0; i < collection.length; i++) {
+          collection[i].style.color = document.getElementById("hamburger")
+            .checked
+            ? "white"
+            : isPastHeight
+              ? "black"
+              : "white";
+
+          document.documentElement.style.setProperty(
+            "--hamburger-color",
+            document.getElementById("hamburger").checked
+              ? "white"
+              : isPastHeight
+                ? "black"
+                : "white",
+          );
+        }
+      });
+
+      const lightbox = document.getElementById("lightbox");
+      const lightboxImg = document.getElementById("lightbox-img");
+      const closeBtn = document.getElementById("close-btn");
+      const thumbs = document.querySelectorAll(".gallery-img");
+
+      // Open lightbox when a thumbnail is clicked
+      thumbs.forEach((thumb) => {
+        thumb.addEventListener("click", () => {
+          lightboxImg.src = thumb.src; // Copy image path
+          lightboxImg.alt = thumb.alt; // Copy alt text
+          lightbox.showModal(); // Show the native modal
+        });
+      });
+
+      // Close lightbox on button click
+      closeBtn.addEventListener("click", () => {
+        lightbox.close();
+      });
+
+      // Close lightbox when clicking outside the image (on the backdrop)
+      lightbox.addEventListener("click", (e) => {
+        if (e.target === lightbox) {
+          lightbox.close();
+        }
+      });
+
+      function getHashCode(str, caseSensitive) {
+        //Get text's hash code
+        if (!caseSensitive) {
+          str = str.toLowerCase();
+        }
+        var hash = 1315423911,
+          i,
+          ch;
+        for (i = str.length - 1; i >= 0; i--) {
+          ch = str.charCodeAt(i);
+          hash ^= (hash << 5) + ch + (hash >> 2);
+        }
+        return hash & 0x7fffffff;
+      }
+      function password() {
+        var sword;
+        var logTimes = 0;
+        while (sword != "1127069681" && logTimes != 3) {
+          //1127069681 is the hash code of the password, 3 is the number of attempts
+          sword = prompt("Please input the password");
+          if (sword == null) {
+            location.href = "about:blank";
+          }
+          sword = getHashCode(sword);
+          console.log("input password hash: " + sword);
+          if (sword != "1127069681") {
+            alert("Password wrong");
+          }
+          logTimes++;
+          console.log("Try times: " + logTimes);
+        }
+        if (logTimes >= 3) {
+          alert("Attempted many times, locked");
+          location.href = "about:blank";
+        }
+      }
+      password();
+    </script>
+  </body>
+</html>
