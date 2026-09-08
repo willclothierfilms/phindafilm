@@ -486,7 +486,9 @@
   <body id="body">
     <div id="header">
       <div id="header-left">
-        <a class="header-link" href="index.html">PHINDA</a>
+        <a id="main-header-link" class="header-link" href="index.html"
+          >PHINDA</a
+        >
       </div>
       <div id="header-right">
         <!-- <a class="header-link" href="#about">About the Film</a> -->
@@ -814,34 +816,49 @@
     </div>
     <script>
       window.addEventListener("scroll", () => {
-        const isPastHeight = window.scrollY > window.innerHeight - 25;
+        const heroImg = document.getElementById("phinda-hero-container");
+        const header = document.getElementById("header");
+        const isPast =
+          window.scrollY +
+            parseFloat(
+              window.getComputedStyle(header).getPropertyValue("padding-top"),
+            ) >
+          heroImg.clientHeight;
+        // const isPastHeight = window.scrollY > window.innerHeight - 25;
 
         const collection = document.getElementsByClassName("header-link");
         for (let i = 0; i < collection.length; i++) {
-          collection[i].style.color = isPastHeight ? "black" : "white";
+          collection[i].style.color = isPast ? "black" : "white";
         }
 
         document.documentElement.style.setProperty(
           "--hamburger-color",
-          isPastHeight ? "black" : "white",
+          isPast ? "black" : "white",
         );
 
-        document.getElementById("ig_logo_w").style.display = isPastHeight
+        document.getElementById("ig_logo_w").style.display = isPast
           ? "none"
           : "";
-        document.getElementById("ig_logo_b").style.display = isPastHeight
+        document.getElementById("ig_logo_b").style.display = isPast
           ? ""
           : "none";
       });
       window.addEventListener("click", () => {
-        const isPastHeight = window.scrollY > window.innerHeight - 25;
+        const heroImg = document.getElementById("phinda-hero-container");
+        const header = document.getElementById("header");
+        const isPast =
+          window.scrollY +
+            parseFloat(
+              window.getComputedStyle(header).getPropertyValue("padding-top"),
+            ) >
+          heroImg.clientHeight;
 
         const collection = document.getElementsByClassName("header-link");
         for (let i = 0; i < collection.length; i++) {
           collection[i].style.color = document.getElementById("hamburger")
             .checked
             ? "white"
-            : isPastHeight
+            : isPast
               ? "black"
               : "white";
 
@@ -849,7 +866,7 @@
             "--hamburger-color",
             document.getElementById("hamburger").checked
               ? "white"
-              : isPastHeight
+              : isPast
                 ? "black"
                 : "white",
           );
